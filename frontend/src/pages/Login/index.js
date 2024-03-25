@@ -22,7 +22,7 @@ const Copyright = () => {
 		<Typography variant="body2" color="primary" align="center">
 			{"Copyright "}
  			<Link color="primary" href="#">
- 				{ nomeEmpresa } - v { versionSystem }
+ 				ZapMundial - v { versionSystem }
  			</Link>{" "}
  			{new Date().getFullYear()}
  			{"."}
@@ -141,18 +141,6 @@ const Login = () => {
 					>
 						{i18n.t("login.buttons.submit")}
 					</Button>
-					{ <Grid container>
-						<Grid item>
-							<Link
-								href="#"
-								variant="body2"
-								component={RouterLink}
-								to="/signup"
-							>
-								{i18n.t("login.buttons.register")}
-							</Link>
-						</Grid>
-					</Grid> }
 				</form>
 			
 			</div>
