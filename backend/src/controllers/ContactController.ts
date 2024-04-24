@@ -8,7 +8,6 @@ import ShowContactService from "../services/ContactServices/ShowContactService";
 import UpdateContactService from "../services/ContactServices/UpdateContactService";
 import DeleteContactService from "../services/ContactServices/DeleteContactService";
 import GetContactService from "../services/ContactServices/GetContactService";
-import DeleteAllContactService from "../services/ContactServices/DeleteAllContactService";
 
 import CheckContactNumber from "../services/WbotServices/CheckNumber";
 import CheckIsValidContact from "../services/WbotServices/CheckIsValidContact";
@@ -104,7 +103,7 @@ export const store = async (req: Request, res: Response): Promise<Response> => {
   });
 
   const io = getIO();
-  io.emit(`company-${companyId}-contact`, {
+  io.to(`company-${companyId}-mainchannel`).emit(`company-${companyId}-contact`, {
     action: "create",
     contact
   });
@@ -156,7 +155,7 @@ export const update = async (
   });
 
   const io = getIO();
-  io.emit(`company-${companyId}-contact`, {
+  io.to(`company-${companyId}-mainchannel`).emit(`company-${companyId}-contact`, {
     action: "update",
     contact
   });
@@ -176,23 +175,12 @@ export const remove = async (
   await DeleteContactService(contactId);
 
   const io = getIO();
-  io.emit(`company-${companyId}-contact`, {
+  io.to(`company-${companyId}-mainchannel`).emit(`company-${companyId}-contact`, {
     action: "delete",
     contactId
   });
 
   return res.status(200).json({ message: "Contact deleted" });
-};
-
-export const removeAll = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  const { contactId } = req.params;
-
-  await DeleteAllContactService();
-
-  return res.send();
 };
 
 export const list = async (req: Request, res: Response): Promise<Response> => {

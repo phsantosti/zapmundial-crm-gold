@@ -251,6 +251,9 @@ const TicketsList = (props) => {
 
 	useEffect(() => {
 		const socket = openSocket();
+    if (!socket) {
+      return () => {}; 
+    }
 
 		const shouldUpdateTicket = (ticket) =>
 			(!ticket.userId || ticket.userId === user?.id || showAll) &&
@@ -259,7 +262,7 @@ const TicketsList = (props) => {
 		const notBelongsToUserQueues = (ticket) =>
 			ticket.queueId && selectedQueueIds.indexOf(ticket.queueId) === -1;
 
-		socket.on("connect", () => {
+		socket.on("ready", () => {
 			if (status) {
 				socket.emit("joinTickets", status);
 			} else {

@@ -11,7 +11,6 @@ import DeleteService from "../services/TagServices/DeleteService";
 import SimpleListService from "../services/TagServices/SimpleListService";
 import SyncTagService from "../services/TagServices/SyncTagsService";
 import KanbanListService from "../services/TagServices/KanbanListService";
-import DeleteAllService from "../services/TagServices/DeleteAllService";
 
 type IndexQuery = {
   searchParam?: string;
@@ -44,7 +43,7 @@ export const store = async (req: Request, res: Response): Promise<Response> => {
   });
 
   const io = getIO();
-  io.emit("tag", {
+  io.to(`company-${companyId}-mainchannel`).emit("tag", {
     action: "create",
     tag
   });
@@ -82,7 +81,7 @@ export const update = async (
   const tag = await UpdateService({ tagData, id: tagId });
 
   const io = getIO();
-  io.emit("tag", {
+  io.to(`company-${req.user.companyId}-mainchannel`).emit("tag", {
     action: "update",
     tag
   });
@@ -99,23 +98,12 @@ export const remove = async (
   await DeleteService(tagId);
 
   const io = getIO();
-  io.emit("tag", {
+  io.to(`company-${req.user.companyId}-mainchannel`).emit("tag", {
     action: "delete",
     tagId
   });
 
   return res.status(200).json({ message: "Tag deleted" });
-};
-
-export const removeAll = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  const { tagId } = req.params;
-
-  await DeleteAllService();
-
-  return res.send();
 };
 
 export const list = async (req: Request, res: Response): Promise<Response> => {

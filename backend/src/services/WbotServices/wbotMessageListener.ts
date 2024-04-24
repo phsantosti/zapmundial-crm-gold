@@ -880,13 +880,16 @@ const verifyMediaMessage = async (
       ],
     });
 
-    io.to("closed").emit(`company-${ticket.companyId}-ticket`, {
-      action: "delete",
-      ticket,
-      ticketId: ticket.id,
-    });
+    io.to(`company-${ticket.companyId}-closed`)
+      .to(`queue-${ticket.queueId}-closed`)
+      .emit(`company-${ticket.companyId}-ticket`, {
+        action: "delete",
+        ticket,
+        ticketId: ticket.id,
+      });
 
-    io.to(ticket.status)
+    io.to(`company-${ticket.companyId}-${ticket.status}`)
+      .to(`queue-${ticket.queueId}-${ticket.status}`)
       .to(ticket.id.toString())
       .emit(`company-${ticket.companyId}-ticket`, {
         action: "update",
@@ -940,14 +943,16 @@ export const verifyMessage = async (
       ]
     });
 
-    io.to("closed").emit(`company-${ticket.companyId}-ticket`, {
-      action: "delete",
-      ticket,
-      ticketId: ticket.id
-    });
+    io.to(`company-${ticket.companyId}-closed`)
+      .to(`queue-${ticket.queueId}-closed`)
+      .emit(`company-${ticket.companyId}-ticket`, {
+        action: "delete",
+        ticket,
+        ticketId: ticket.id
+      });
 
-    io.to(ticket.status)
-      .to(ticket.id.toString())
+    io.to(`company-${ticket.companyId}-${ticket.status}`)
+      .to(`queue-${ticket.queueId}-${ticket.status}`)
       .emit(`company-${ticket.companyId}-ticket`, {
         action: "update",
         ticket,
@@ -1087,7 +1092,7 @@ const verifyQueue = async (
     }
 
     await UpdateTicketService({
-      ticketData: { queueId: firstQueue?.id, chatbot },
+      ticketData: { queueId: firstQueue.id, chatbot, status: "pending" },
       ticketId: ticket.id,
       companyId: ticket.companyId,
     });
@@ -1312,13 +1317,16 @@ export const handleRating = async (
     status: "closed",
   });
 
-  io.to("open").emit(`company-${ticket.companyId}-ticket`, {
-    action: "delete",
-    ticket,
-    ticketId: ticket.id,
-  });
+  io.to(`company-${ticket.companyId}-open`)
+    .to(`queue-${ticket.queueId}-open`)
+    .emit(`company-${ticket.companyId}-ticket`, {
+      action: "delete",
+      ticket,
+      ticketId: ticket.id,
+    });
 
-  io.to(ticket.status)
+  io.to(`company-${ticket.companyId}-${ticket.status}`)
+    .to(`queue-${ticket.queueId}-${ticket.status}`)
     .to(ticket.id.toString())
     .emit(`company-${ticket.companyId}-ticket`, {
       action: "update",
@@ -2225,13 +2233,16 @@ const verifyCampaignMessageAndCloseTicket = async (
     const ticket = await Ticket.findByPk(messageRecord.ticketId);
     await ticket.update({ status: "closed" });
 
-    io.to("open").emit(`company-${ticket.companyId}-ticket`, {
-      action: "delete",
-      ticket,
-      ticketId: ticket.id,
-    });
+    io.to(`company-${ticket.companyId}-open`)
+      .to(`queue-${ticket.queueId}-open`)
+      .emit(`company-${ticket.companyId}-ticket`, {
+        action: "delete",
+        ticket,
+        ticketId: ticket.id,
+      });
 
-    io.to(ticket.status)
+    io.to(`company-${ticket.companyId}-${ticket.status}`)
+      .to(`queue-${ticket.queueId}-${ticket.status}`)
       .to(ticket.id.toString())
       .emit(`company-${ticket.companyId}-ticket`, {
         action: "update",
