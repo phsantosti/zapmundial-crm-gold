@@ -1,11 +1,9 @@
 import React, { useState, useContext } from "react";
-import { Link as RouterLink } from "react-router-dom";
 
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid"; 
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
@@ -22,7 +20,7 @@ const Copyright = () => {
 		<Typography variant="body2" color="primary" align="center">
 			{"Copyright "}
  			<Link color="primary" href="#">
- 				ZapMundial - v { versionSystem }
+ 				{ nomeEmpresa } - v { versionSystem }
  			</Link>{" "}
  			{new Date().getFullYear()}
  			{"."}
@@ -34,11 +32,7 @@ const useStyles = makeStyles(theme => ({
 	root: {
 		width: "100vw",
 		height: "100vh",
-		//background: "linear-gradient(to right, #76EE00 , #76EE00 , #458B00)",
-		backgroundImage: "url(https://i.imgur.com/CGby9tN.png)",
-		backgroundRepeat: "no-repeat",
-		backgroundSize: "100% 100%",
-		backgroundPosition: "center",
+		background: "linear-gradient(to right, #99E9A5 , #198754 , #198754)",
 		display: "flex",
 		flexDirection: "column",
 		alignItems: "center",
@@ -93,9 +87,6 @@ const Login = () => {
 				<div>
 					<img style={{ margin: "0 auto", width: "100%" }} src={logo} alt="Whats" />
 				</div>
-				{/*<Typography component="h1" variant="h5">
-					{i18n.t("login.title")}
-				</Typography>*/}
 				<form className={classes.form} noValidate onSubmit={handlSubmit}>
 					<TextField
 						variant="outlined"
@@ -123,15 +114,7 @@ const Login = () => {
 						onChange={handleChangeInput}
 						autoComplete="current-password"
 					/>
-					
-					<Grid container justify="flex-end">
-					  <Grid item xs={6} style={{ textAlign: "right" }}>
-						<Link component={RouterLink} to="/forgetpsw" variant="body2">
-						  Esqueceu sua senha?
-						</Link>
-					  </Grid>
-					</Grid>
-					
+
 					<Button
 						type="submit"
 						fullWidth

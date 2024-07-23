@@ -48,7 +48,7 @@ class Message extends Model<Message> {
   @Column(DataType.STRING)
   get mediaUrl(): string | null {
     if (this.getDataValue("mediaUrl")) {
-      return `${process.env.BACKEND_URL}/public/${this.getDataValue(
+      return `${process.env.BACKEND_URL}${process.env.PORT ? `:${process.env.PORT}` : ""}/public/${this.getDataValue(
         "mediaUrl"
       )}`;
     }
@@ -104,7 +104,7 @@ class Message extends Model<Message> {
 
   @BelongsTo(() => Queue)
   queue: Queue;
-  
+
   @Default(false)
   @Column
   isEdited: boolean;
