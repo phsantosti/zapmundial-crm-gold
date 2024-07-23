@@ -65,7 +65,8 @@
     "use-sound": "^2.0.1",
     "uuid": "^8.3.2",
     "vcard-parser": "^1.0.0",
-    "yup": "^0.32.8"
+    "yup": "^0.32.8",
+    "dotenv": "16.4.5"
   },
   "devDependencies": {
     "cross-env": "7.0.3"
