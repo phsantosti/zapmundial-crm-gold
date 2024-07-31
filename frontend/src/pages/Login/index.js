@@ -1,18 +1,21 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { Link as RouterLink } from "react-router-dom";
 
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid"; 
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { versionSystem } from "../../../package.json";
 import { i18n } from "../../translate/i18n";
+import api from "../../services/api";
 import { nomeEmpresa } from "../../../package.json";
 import { AuthContext } from "../../context/Auth/AuthContext";
-import logo from "../../assets/logo.png";
+//import logo from "../../assets/logo.png";
 
 
 const Copyright = () => {
@@ -32,7 +35,11 @@ const useStyles = makeStyles(theme => ({
 	root: {
 		width: "100vw",
 		height: "100vh",
-		background: "linear-gradient(to right, #99E9A5 , #198754 , #198754)",
+		//background: "linear-gradient(to right, #76EE00 , #76EE00 , #458B00)",
+		backgroundImage: "url(https://i.imgur.com/CGby9tN.png)",
+		backgroundRepeat: "no-repeat",
+		backgroundSize: "100% 100%",
+		backgroundPosition: "center",
 		display: "flex",
 		flexDirection: "column",
 		alignItems: "center",
@@ -69,15 +76,39 @@ const Login = () => {
 	const [user, setUser] = useState({ email: "", password: "" });
 
 	const { handleLogin } = useContext(AuthContext);
+	const [viewregister, setviewregister] = useState('disabled');
 
 	const handleChangeInput = e => {
 		setUser({ ...user, [e.target.name]: e.target.value });
 	};
+	
+	    useEffect(() => {
+    	fetchviewregister();
+  	}, []);
+	
+		const fetchviewregister = async () => {
+  
+ 
+    try {
+    	const responsev = await api.get("/settings/viewregister");
+      	const viewregisterX = responsev?.data?.value;
+      	// console.log(viewregisterX);
+      	setviewregister(viewregisterX);
+    	} catch (error) {
+    		console.error('Error retrieving viewregister', error);
+    	}
+  	};
+
 
 	const handlSubmit = e => {
 		e.preventDefault();
 		handleLogin(user);
 	};
+	
+	const logo = `${process.env.REACT_APP_BACKEND_URL}/public/logotipos/login.png`;
+    const randomValue = Math.random(); // Generate a random number
+  
+    const logoWithRandom = `${logo}?r=${randomValue}`;
 
 	return (
 		<div className={classes.root}>
@@ -85,8 +116,11 @@ const Login = () => {
 			<CssBaseline/>
 			<div className={classes.paper}>
 				<div>
-					<img style={{ margin: "0 auto", width: "100%" }} src={logo} alt="Whats" />
+					<img style={{ margin: "0 auto", width: "80%" }} src={logoWithRandom} alt={`${process.env.REACT_APP_NAME_SYSTEM}`} />
 				</div>
+				{/*<Typography component="h1" variant="h5">
+					{i18n.t("login.title")}
+				</Typography>*/}
 				<form className={classes.form} noValidate onSubmit={handlSubmit}>
 					<TextField
 						variant="outlined"
@@ -114,7 +148,16 @@ const Login = () => {
 						onChange={handleChangeInput}
 						autoComplete="current-password"
 					/>
-
+					
+					<Grid container justify="flex-end">
+					  <Grid item xs={6} style={{ textAlign: "right" }}>
+						<Link component={RouterLink} to="/forgetpsw" variant="body2">
+						  Esqueceu sua senha?
+						</Link>
+					  </Grid>
+					</Grid>
+				
+					
 					<Button
 						type="submit"
 						fullWidth
@@ -124,6 +167,24 @@ const Login = () => {
 					>
 						{i18n.t("login.buttons.submit")}
 					</Button>
+                    {viewregister === "enabled" && (
+                    <>
+					<Grid container>
+						<Grid item>
+							<Link
+								href="#"
+								variant="body2"
+								component={RouterLink}
+								to="/signup"
+							>
+								{i18n.t("login.buttons.register")}
+							</Link>
+						</Grid>
+					</Grid>
+                    </>
+                    )}
+				
+					
 				</form>
 			
 			</div>
