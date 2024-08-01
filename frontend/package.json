@@ -67,15 +67,18 @@
     "use-sound": "^2.0.1",
     "uuid": "^8.3.2",
     "vcard-parser": "^1.0.0",
-    "yup": "^0.32.8"
+    "yup": "^0.32.8",
+    "cross-env": "7.0.3",
+    "craco": "^0.0.3"
   },
-	"scripts": {
-	  "start": "export NODE_OPTIONS=\"--max-old-space-size=8192\" && react-scripts start",
-	  "build": "export NODE_OPTIONS=\"--max-old-space-size=8192\" && NODE_OPTIONS=--openssl-legacy-provider GENERATE_SOURCEMAP=false react-scripts build",
-	  "builddev": "export NODE_OPTIONS=\"--max-old-space-size=8192\" && react-scripts build",
-	  "test": "export NODE_OPTIONS=\"--max-old-space-size=8192\" && react-scripts test",
-	  "eject": "export NODE_OPTIONS=\"--max-old-space-size=8192\" && react-scripts eject"
-	},
+  "scripts": {
+    "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider --max-old-space-size=8192 craco start",
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider --max-old-space-size=8192 GENERATE_SOURCEMAP=false react-scripts build",
+    "builddev": "cross-env NODE_OPTIONS=--openssl-legacy-provider --max-old-space-size=8192 craco build",
+    "test": "cross-env NODE_OPTIONS=--openssl-legacy-provider --max-old-space-size=8192 craco test",
+    "eject": "cross-env NODE_OPTIONS=--openssl-legacy-provider --max-old-space-size=8192 craco eject",
+    "postinstall": "rimraf package-lock.json"
+  },
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -90,5 +93,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "rimraf": "^6.0.1"
   }
 }
