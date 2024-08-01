@@ -69,7 +69,8 @@
     "vcard-parser": "^1.0.0",
     "yup": "^0.32.8",
     "cross-env": "7.0.3",
-    "craco": "^0.0.3"
+    "craco": "^0.0.3",
+    "webpack": "4.42.0"
   },
   "scripts": {
     "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider --max-old-space-size=8192 craco start",
