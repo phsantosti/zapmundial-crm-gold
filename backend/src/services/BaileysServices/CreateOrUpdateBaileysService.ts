@@ -18,16 +18,12 @@ const createOrUpdateBaileysService = async ({
   });
 
   if (baileysExists) {
-    let getChats = [];
-
-    if(baileysExists.chats){
-      getChats = JSON.parse(JSON.stringify(baileysExists.chats));
-    }
-
-    let getContacts = [];
-    if(baileysExists.contacts){
-      getContacts = JSON.parse(JSON.stringify(baileysExists.contacts));
-    }
+    const getChats = baileysExists.chats
+      ? JSON.parse(JSON.stringify(baileysExists.chats))
+      : [];
+    const getContacts = baileysExists.contacts
+      ? JSON.parse(JSON.stringify(baileysExists.contacts))
+      : [];
 
     if (chats && isArray(getChats)) {
       getChats.push(...chats);
