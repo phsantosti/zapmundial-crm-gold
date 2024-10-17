@@ -26,6 +26,8 @@
     "chartjs-plugin-datalabels": "^2.1.0",
     "compressorjs": "^1.2.1",
     "context": "^4.0.0",
+    "craco": "^0.0.3",
+    "cross-env": "7.0.3",
     "date-fns": "^2.16.1",
     "emoji-mart": "^3.0.0",
     "express": "^4.19.2",
@@ -72,17 +74,18 @@
     "uuid": "^8.3.2",
     "vcard-parser": "^1.0.0",
     "xlsx": "^0.18.5",
+    "webpack": "4.42.0",
     "yup": "^0.32.8"
   },
   "scripts": {
-    "start": "export NODE_OPTIONS=\"--max-old-space-size=8192\" && react-scripts start",
-    "build": "export NODE_OPTIONS=\"--max-old-space-size=8192\" && NODE_OPTIONS=--openssl-legacy-provider GENERATE_SOURCEMAP=false react-scripts build",
-    "builddev": "export NODE_OPTIONS=\"--max-old-space-size=8192\" && react-scripts build",
-    "test": "export NODE_OPTIONS=\"--max-old-space-size=8192\" && react-scripts test",
-    "eject": "export NODE_OPTIONS=\"--max-old-space-size=8192\" && react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "legacy": "react-scripts start",
+    "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider craco start",
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider GENERATE_SOURCEMAP=false craco build",
+    "builddev": "cross-env NODE_OPTIONS=--openssl-legacy-provider craco build",
+    "winBuild": "set \"GENERATE_SOURCEMAP=false\" && craco build",
+    "test": "cross-env NODE_OPTIONS=--openssl-legacy-provider craco test",
+    "eject": "react-scripts eject",
+    "postinstall": "rimraf package-lock.json"
   },
   "browserslist": {
     "production": [
@@ -95,5 +98,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "resolutions": {
+    "webpack": "4.42.0"
+  },
+  "devDependencies": {
+    "rimraf": "^6.0.1"
   }
 }
